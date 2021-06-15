@@ -14,6 +14,12 @@ namespace ProjectOrganizer.DAL
         private string sqlCreateProject = "INSERT INTO project(project_id, name, from_date, hire_date)" +
             "VALUES(@project_id, @name, @from_date, @hire_date);";
 
+        private string sqlRemoveEmployeeFromProject = "DELETE FROM project_employee WHERE project_id = @project_Id AND employee_id = @employee_Id";
+
+        private string sqlAddEmployeeToProject = "INSERT INTO project_employee (project_id, employee_id) VALUES (@project_id, @employee_id)";
+
+
+
         // Single Parameter Constructor
         public ProjectSqlDAO(string dbConnectionString)
         {
@@ -65,7 +71,31 @@ namespace ProjectOrganizer.DAL
         /// <returns>If it was successful.</returns>
         public bool AssignEmployeeToProject(int projectId, int employeeId)
         {
-            throw new NotImplementedException();
+            bool result = false;
+
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(sqlAddEmployeeToProject, conn);
+
+                    cmd.Parameters.AddWithValue("@project_Id", projectId);
+                    cmd.Parameters.AddWithValue("@employee_Id", employeeId);
+
+                    int count = cmd.ExecuteNonQuery();
+                    if (count > 0)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+            return result;
         }
 
         /// <summary>
@@ -74,9 +104,31 @@ namespace ProjectOrganizer.DAL
         /// <param name="projectId">The project's id.</param>
         /// <param name="employeeId">The employee's id.</param>
         /// <returns>If it was successful.</returns>
+        /// 
+
+
+ 
         public bool RemoveEmployeeFromProject(int projectId, int employeeId)
         {
-            throw new NotImplementedException();
+            bool result = false;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sqlRemoveEmployeeFromProject, conn);
+
+                cmd.Parameters.AddWithValue("@project_Id", projectId);
+                cmd.Parameters.AddWithValue("@employee_Id", employeeId);
+
+                int count = cmd.ExecuteNonQuery();
+                if (count > 0)
+                {
+                    result = true;
+                }
+
+            }
+            return result;
         }
 
         /// <summary>

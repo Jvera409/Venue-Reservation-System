@@ -11,9 +11,9 @@ namespace ProjectOrganizer.DAL
 
         private string sqlGetAllEmployees = "SELECT * FROM employee";
 
-        private string sqlSearch = "SELECT * FROM employee" +
-            "WHERE @first_name = first_name" +
-            "AND @last_name = last_name";
+        private string sqlSearch = "SELECT * FROM employee " +
+        "WHERE first_name LIKE '%@first_name%' " +
+        "AND last_name LIKE '%@last_name%'";
 
         private string sqlGetEmployeesWithoutProjects = "SELECT* FROM employee " +
             "LEFT JOIN project_employee ON employee.employee_id = project_employee.employee_id " +
@@ -82,11 +82,16 @@ namespace ProjectOrganizer.DAL
                     conn.Open();
 
                     SqlCommand cmd = new SqlCommand(sqlSearch, conn);
+
+                    cmd.Parameters.AddWithValue("first_name", firstname);
+                    cmd.Parameters.AddWithValue("last_name", lastname);
+
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while (reader.Read() == true)
+                    while (reader.Read())
                     {
                         Employee employee = new Employee();
+
 
                         employee.EmployeeId = Convert.ToInt32(reader["employee_id"]);
                         employee.DepartmentId = Convert.ToInt32(reader["department_id"]);
@@ -134,7 +139,7 @@ namespace ProjectOrganizer.DAL
                         employee.JobTitle = Convert.ToString(reader["job_title"]);
                         employee.BirthDate = Convert.ToDateTime(reader["birth_date"]);
                         employee.HireDate = Convert.ToDateTime(reader["hire_date"]);
-                        
+
 
                         result.Add(employee);
                     }

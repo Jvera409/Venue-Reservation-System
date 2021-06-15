@@ -4,11 +4,6 @@ namespace ProjectOrganizer.Models
 {
     public class Employee
     {
-        public Employee(string firstname, string lastname)
-        {
-            FirstName = firstname;
-            LastName = lastname;
-        }
 
         /// <summary>
         /// The employee id.
