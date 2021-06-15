@@ -39,11 +39,20 @@ namespace PojectOrganizerTest
         [TestMethod]
         [DataRow(5, "IT support")]
 
-        //public void DepartmentSqlDAO(int id, string name)
-        //{
-        //    List<Department> departments = departmentSqlDAO.GetDepartments();
-        //    int count = departmentSqlDAO
+        public void DepartmentSqlDAOCreateDepartment(int Id, string Name)
+        {
+            Department department = new Department();
+            department.Id = Id;
+            department.Name = Name;
 
-        //    departmenSqlDAO.
+            IList<Department> departments = departmentSqlDAO.GetDepartments();
+            int count = departments.Count;
+
+            departmentSqlDAO.CreateDepartment(department);
+
+            departments = departmentSqlDAO.GetDepartments();
+
+            Assert.AreEqual(count + 1, departments.Count);
+        }
     }
 }
