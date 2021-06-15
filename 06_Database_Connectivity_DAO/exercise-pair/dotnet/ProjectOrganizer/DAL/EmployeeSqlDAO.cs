@@ -88,13 +88,13 @@ namespace ProjectOrganizer.DAL
                     {
                         Employee employee = new Employee();
 
-                        //employee.EmployeeId = Convert.ToInt32(reader["employee_id"]);
-                        //employee.DepartmentId = Convert.ToInt32(reader["department_id"]);
+                        employee.EmployeeId = Convert.ToInt32(reader["employee_id"]);
+                        employee.DepartmentId = Convert.ToInt32(reader["department_id"]);
                         employee.FirstName = Convert.ToString(reader["first_name"]);
                         employee.LastName = Convert.ToString(reader["last_name"]);
-                        //employee.JobTitle = Convert.ToString(reader["job_title"]);
-                        //employee.BirthDate = Convert.ToDateTime(reader["birth_date"]);
-                        //employee.HireDate = Convert.ToDateTime(reader["hire_date"]);
+                        employee.JobTitle = Convert.ToString(reader["job_title"]);
+                        employee.BirthDate = Convert.ToDateTime(reader["birth_date"]);
+                        employee.HireDate = Convert.ToDateTime(reader["hire_date"]);
 
                         result.Add(employee);
                     }

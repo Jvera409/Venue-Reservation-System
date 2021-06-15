@@ -9,7 +9,7 @@ namespace ProjectOrganizer.DAL
     {
         private readonly string connectionString;
 
-        private string sqlGetDepartents = "SELECT * FROM department";
+        private string sqlGetDepartments = "SELECT * FROM department";
 
         private string sqlCreateDepartment = "INSERT INTO department(name) " +
             "VALUES (@name);";
@@ -35,7 +35,7 @@ namespace ProjectOrganizer.DAL
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand(sqlGetDepartents, conn);
+                    SqlCommand cmd = new SqlCommand(sqlGetDepartments, conn);
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read() == true)
