@@ -10,7 +10,7 @@ namespace PojectOrganizerTest
     public class DepartmentDAOTest
     {
         DepartmentSqlDAO departmentSqlDAO;
-        private string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=EmployeeDB;Integrated Security=True";
+        
         private TransactionScope tran;
 
         [TestInitialize]
@@ -19,7 +19,7 @@ namespace PojectOrganizerTest
         {
             tran = new TransactionScope();
 
-            departmentSqlDAO = new DepartmentSqlDAO(connectionString);
+           // departmentSqlDAO = new DepartmentSqlDAO(connectionString);
         }
 
         [TestCleanup]
@@ -54,5 +54,31 @@ namespace PojectOrganizerTest
 
             Assert.AreEqual(count + 1, departments.Count);
         }
+
+        [TestMethod]
+
+        public void GetDepartments_Should_ReturnAllDepartments()
+        {
+            //Arrange 
+          //  departmentSqlDAO = new DepartmentSqlDAO(connectionString);
+
+            //Act
+            IList<Department> departments = departmentSqlDAO.GetDepartments();
+
+            //Assert
+            Assert.AreEqual(4, departments.Count);
+        }
+        //public void GetCountriesTest_Should_ReturnAllCountries()
+        //{
+        //    // Arrange
+        //    CountrySqlDAO dao = new CountrySqlDAO(ConnectionString);
+
+        //    // Act
+        //    IList<Country> countries = dao.GetCountries();
+
+        //    // Assert
+        //    Assert.AreEqual(1, countries.Count);
+        //}
+
     }
 }
