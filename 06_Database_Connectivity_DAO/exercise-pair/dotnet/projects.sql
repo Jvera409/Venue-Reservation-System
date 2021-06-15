@@ -108,3 +108,22 @@ INSERT INTO project_employee (project_id, employee_id) VALUES (6, 10);
 INSERT INTO project_employee (project_id, employee_id) VALUES (6, 11);
 
 COMMIT TRANSACTION;
+
+SELECT * FROM employee
+LEFT JOIN project_employee ON employee.employee_id = project_employee.employee_id
+JOIN project ON project_employee.project_id = project.project_id
+
+SELECT * FROM project
+
+SELECT * FROM project_employee
+
+SELECT * FROM employee
+  LEFT JOIN project_employee
+  ON employee.employee_id = project_employee.employee_id
+  WHERE project_id IS NULL
+
+  SELECT * FROM employee
+            ORDER BY first_name, last_name
+SELECT * FROM employee
+            WHERE first_name = first_name
+            AND last_name = last_name
