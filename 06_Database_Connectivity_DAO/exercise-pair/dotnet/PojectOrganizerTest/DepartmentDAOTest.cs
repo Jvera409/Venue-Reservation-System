@@ -4,11 +4,13 @@ using ProjectOrganizer.Models;
 using System.Collections.Generic;
 using System.Transactions;
 
-namespace PojectOrganizerTest
+namespace ProjectOrganizerTest
 {
     [TestClass]
     public class DepartmentDAOTest
     {
+        public string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=EmployeeDB;Integrated Security=True";
+
         DepartmentSqlDAO departmentSqlDAO;
         
         private TransactionScope tran;
@@ -68,17 +70,6 @@ namespace PojectOrganizerTest
             //Assert
             Assert.AreEqual(4, departments.Count);
         }
-        //public void GetCountriesTest_Should_ReturnAllCountries()
-        //{
-        //    // Arrange
-        //    CountrySqlDAO dao = new CountrySqlDAO(ConnectionString);
-
-        //    // Act
-        //    IList<Country> countries = dao.GetCountries();
-
-        //    // Assert
-        //    Assert.AreEqual(1, countries.Count);
-        //}
 
     }
 }

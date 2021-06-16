@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Transactions;
 
 
-namespace PojectOrganizerTest
+namespace ProjectOrganizerTest
 {
 
 
-    class ProjectsDAOTest
+    class ProjectsDAOTest : DepartmentDAOTest
     {
 
         ProjectSqlDAO projectSqlDAO;
@@ -31,8 +31,8 @@ namespace PojectOrganizerTest
         {
             tran.Dispose();
         }
-        private string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=EmployeeDB;Integrated Security=True";
-      
+
+
         [TestMethod]
         public void GetProjects_Should_Return_Right_Number()
         {
@@ -44,6 +44,46 @@ namespace PojectOrganizerTest
 
             //Assert
             Assert.AreEqual(6, projects.Count);
+        }
+
+        [TestMethod]
+        [DataRow(2, 2)]
+        public void AssignEmployee_To_Project_Should_Return_One_More_Project(int Id, int EmployeeID)
+        {
+
+            Project project = new Project();
+            Employee employee = new Employee();
+
+            project.ProjectId = Id;
+            employee.EmployeeId = EmployeeID;
+
+            IList<Project> projects = projectSqlDAO.GetAllProjects();
+            int count = projects.Count;
+
+            projectSqlDAO.AssignEmployeeToProject(Id, EmployeeID);
+            projects = projectSqlDAO.GetAllProjects();
+
+            Assert.AreEqual(count + 1, projects.Count);
+
+        }
+        [TestMethod]
+        public void Remove_Employee_Should_Return_One_Less(int Id, int EmployeeID)
+        {
+
+            Project project = new Project();
+            Employee employee = new Employee();
+
+            project.ProjectId = Id;
+            employee.EmployeeId = EmployeeID;
+
+            IList<Project> projects = projectSqlDAO.GetAllProjects();
+            int count = projects.Count;
+
+            projectSqlDAO.AssignEmployeeToProject(Id, EmployeeID);
+            projects = projectSqlDAO.GetAllProjects();
+
+            Assert.AreEqual(count - 1, projects.Count);
+
         }
     }
 }
