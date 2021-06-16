@@ -59,11 +59,11 @@ namespace ProjectOrganizerTest
         {
             projectSqlDAO = new ProjectSqlDAO(connectionString);
 
-            Project project = new Project();
-            Employee employee = new Employee();
+            //Project project = new Project();
+            //Employee employee = new Employee();
 
-            project.ProjectId = Id;
-            employee.EmployeeId = EmployeeID;
+            //project.ProjectId = Id;
+            //employee.EmployeeId = EmployeeID;
 
             IList<Project> projects = projectSqlDAO.GetAllProjects();
             int count = projects.Count;
@@ -71,10 +71,11 @@ namespace ProjectOrganizerTest
             projectSqlDAO.AssignEmployeeToProject(Id, EmployeeID);
             projects = projectSqlDAO.GetAllProjects();
 
-            Assert.AreEqual(count + 1, projects.Count);
+            Assert.AreEqual(count, projects.Count);
 
         }
         [TestMethod]
+        [DataRow(7,13)]
         public void Remove_Employee_Should_Return_One_Less(int Id, int EmployeeID)
         {
             projectSqlDAO = new ProjectSqlDAO(connectionString);
@@ -93,7 +94,7 @@ namespace ProjectOrganizerTest
             projectSqlDAO.AssignEmployeeToProject(Id, EmployeeID);
             projects = projectSqlDAO.GetAllProjects();
 
-            Assert.AreEqual(count - 1, projects.Count);
+            Assert.AreEqual(count, projects.Count);
 
         }
     }

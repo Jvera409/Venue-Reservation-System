@@ -54,17 +54,39 @@ namespace PojectOrganizerTest
             Assert.AreEqual(count, employees.Count);
         }
 
-        //public void GetDepartments_Should_ReturnAllDepartments()
-        //{
-        //    //Arrange 
-        //    departmentSqlDAO = new DepartmentSqlDAO(connectionString);
+        [TestMethod]
+        public void GetEmployeesWithoutProjects_Should_Return_Correct_Number()
+        {
+            //Arrange
+            employeeSqlDAO = new EmployeeSqlDAO(connectionString);
 
-        //    //Act
-        //    IList<Department> departments = departmentSqlDAO.GetDepartments();
+            //Act
+            IList<Employee> employees = employeeSqlDAO.GetEmployeesWithoutProjects();
+            int count = employees.Count;
 
-        //    //Assert
-        //    Assert.AreEqual(4, departments.Count);
-        //}
+            //Assert
+            Assert.AreEqual(count, employees.Count);
+        }
+
+        [TestMethod]
+        [DataRow ("Mitch", "Vera")]
+
+        public void EmployeeSearchShouldReturnNewName(string firstname, string lastname)
+        {
+            //Arrange
+            employeeSqlDAO = new EmployeeSqlDAO(connectionString);
+
+            //Act
+            IList<Employee> employees = employeeSqlDAO.GetAllEmployees();
+            int count = employees.Count;
+            employeeSqlDAO.Search(firstname, lastname);
+            employees = employeeSqlDAO.GetAllEmployees();
+
+            //Assert
+            Assert.AreEqual(count, employees.Count);
+        }
+
+
 
 
     }
