@@ -26,7 +26,7 @@ namespace Capstone
 
             while (!done)
             {
-              MainMenu();
+                MainMenu();
                 string input = Console.ReadLine();
                 switch (input.ToUpper())
                 {
@@ -49,35 +49,46 @@ namespace Capstone
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("1. List Venues");
             Console.WriteLine("Q. Quit program");
+            Console.WriteLine();
         }
 
         private void GetAllVenues()
         {
+            Console.WriteLine();
             Console.WriteLine("Here are all available Venues:");
 
             foreach (Venues venues in venueDAO.GetAllVenues())
             {
                 Console.WriteLine(venues.Id + " " + venues.Name);
             }
-      
+
         }
 
         private void SelectVenue()
         {
+            Console.WriteLine();
             Console.WriteLine("Which venue would you like to view?");
             int venueSelect = int.Parse(Console.ReadLine());
 
-            foreach (Venues venues in venueDAO.SelectVenue(venueSelect))
-            {
-                Console.WriteLine();
-                Console.WriteLine(venues.Name);
-                Console.WriteLine(venues.CityId);
-                Console.WriteLine(venues.Categories);
-                Console.WriteLine();
+            Venues venues = venueDAO.SelectVenue(venueSelect);
 
-                Console.WriteLine(venues.Description);
+            Console.WriteLine();
+            Console.WriteLine(venues.Name);
+            //Console.WriteLine(venues.CityId);
+            foreach (Category category in venues.Categories)
+            {
+                Console.Write(category.Name);
             }
+            Console.WriteLine();
+            Console.WriteLine(venues.Description);
+
+            SelectSpace(venueSelect);
+        }
+
+        private void SelectSpace(int venue)
+        {
 
         }
+
     }
 }

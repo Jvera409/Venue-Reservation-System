@@ -14,6 +14,7 @@ namespace Capstone.DAL
 
         private string sqlGetAllVenues = "SELECT * FROM venue;";
 
+        //Add a join to city here
         private string sqlSelectVenue = "Select * FROM venue WHERE id = @id";
 
         private string sqlCategory = "SELECT * FROM category_venue JOIN category " +
@@ -59,9 +60,9 @@ namespace Capstone.DAL
             return venues;
         }
 
-        public List<Venues> SelectVenue(int Id)
+        public Venues SelectVenue(int Id)
         {
-            List<Venues> venues = new List<Venues>();
+            Venues venue = new Venues();
 
             try
             {
@@ -75,46 +76,43 @@ namespace Capstone.DAL
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while (reader.Read() == true)
+                    if (reader.Read() == true)
                     {
-                        Venues venues1 = new Venues();
 
-                        venues1.Id = Convert.ToInt32(reader["id"]);
-                        venues1.Name = Convert.ToString(reader["name"]);
-                        venues1.CityId = Convert.ToInt32(reader["city_id"]);
-                        venues1.Description = Convert.ToString(reader["description"]);
+                        venue.Id = Convert.ToInt32(reader["id"]);
+                        venue.Name = Convert.ToString(reader["name"]);
+                        venue.CityId = Convert.ToInt32(reader["city_id"]);
+                        venue.Description = Convert.ToString(reader["description"]);
 
-                        venues.Add(venues1);
                     }
 
-                    foreach (Venues venues2 in venues)
+
+                    List<Category> categories = new List<Category>();
+                    cmd = new SqlCommand(sqlCategory, conn);
+
+                    cmd.Parameters.AddWithValue("@venueId", venue.Id);
+
+                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+
+                    if (sqlDataReader.Read() == true)
                     {
-                        List<Category> categories = new List<Category>();
-                        cmd = new SqlCommand(sqlCategory, conn);
+                        Category category = new Category();
+                        category.ID = Convert.ToInt32(sqlDataReader["id"]);
+                        category.Name = Convert.ToString(sqlDataReader["name"]);
 
-                        cmd.Parameters.AddWithValue("@venueId", venues2.Id);
-
-                        SqlDataReader sqlDataReader = cmd.ExecuteReader();
-
-                        if (reader.Read() == true)
-                        {
-                            Category category = new Category();
-                            category.ID = Convert.ToInt32(reader["id"]);
-                            category.Name = Convert.ToString(reader["name"]);
-
-                            categories.Add(category);
-                        }
-                        venues2.Categories = categories;
+                        categories.Add(category);
                     }
+                    venue.Categories = categories;
+
 
                 }
-                
+
             }
             catch (Exception ex)
             {
-                venues = new List<Venues>();
+                venue = new Venues();
             }
-            return venues;
+            return venue;
         }
     }
 }

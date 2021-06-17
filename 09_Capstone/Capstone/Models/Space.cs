@@ -11,12 +11,12 @@ namespace Capstone.Models
         public string Name { get; set; }
         public int VenueId { get; set; }
         public bool IsAccessible { get; set; }
-        public string OpenFrom { get; set; }
-        public string OpenTo { get; set; }
+        public int OpenFrom { get; set; }
+        public int OpenTo { get; set; }
         public double DailyRate { get; set; }
         public int MaxOccupancy { get; set; }
 
-        public Space(int id, string name, int venueId, bool isAccessible, string openFrom, string openTo, double dailyRate, int maxOccupancy)
+        public Space(int id, string name, int venueId, bool isAccessible, int openFrom, int openTo, double dailyRate, int maxOccupancy)
         {
             Id = id;
             Name = name;
