@@ -1,4 +1,5 @@
 ﻿using Capstone.DAL;
+using Capstone.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,8 +22,63 @@ namespace Capstone
 
         public void Run()
         {
-            Console.WriteLine("Reached the User Interface.");
-            Console.ReadLine();
+            bool done = false;
+
+            while (!done)
+            {
+              MainMenu();
+                string input = Console.ReadLine();
+                switch (input.ToUpper())
+                {
+                    case "1": //callSQLMethod
+                        GetAllVenues();
+                        SelectVenue();
+                        //GetAllSpaces();
+                        break;
+                    case "Q":
+                        done = true;
+                        Console.WriteLine("Thank you for using Excelsior Venues.");
+                        break;
+                }
+            }
+
+        }
+        private void MainMenu()
+        {
+            Console.WriteLine();
+            Console.WriteLine("What would you like to do?");
+            Console.WriteLine("1. List Venues");
+            Console.WriteLine("Q. Quit program");
+        }
+
+        private void GetAllVenues()
+        {
+            Console.WriteLine("Here are all available Venues:");
+
+            foreach (Venues venues in venueDAO.GetAllVenues())
+            {
+                Console.WriteLine(venues.Id + " " + venues.Name);
+            }
+      
+        }
+
+        private void SelectVenue()
+        {
+            Console.WriteLine("Which venue would you like to view?");
+            int venueSelect = int.Parse(Console.ReadLine());
+
+            foreach (Venues venues in venueDAO.SelectVenue(venueSelect))
+            {
+                Console.WriteLine();
+                Console.WriteLine(venues.Name);
+
+                Console.WriteLine(venues.CityId);
+                Console.WriteLine(venues.Categories);
+                Console.WriteLine();
+
+                Console.WriteLine(venues.Description);
+            }
+
         }
     }
 }

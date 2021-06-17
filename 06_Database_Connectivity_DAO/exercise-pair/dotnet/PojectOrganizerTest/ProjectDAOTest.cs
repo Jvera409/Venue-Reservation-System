@@ -9,7 +9,12 @@ namespace ProjectOrganizerTest
 {
     [TestClass]
 
+<<<<<<< HEAD
     public class ProjectsDAOTest
+=======
+    [TestClass]
+    public class ProjectsDAOTest : TestParentDAO
+>>>>>>> 4b7b781ccc815358b1db71a956adc442844a373f
     {
 
         ProjectSqlDAO projectSqlDAO;
@@ -20,7 +25,7 @@ namespace ProjectOrganizerTest
 
         [TestInitialize]
 
-        public void Setup()
+        public override void Setup()
         {
             tran = new TransactionScope();
 
@@ -29,11 +34,16 @@ namespace ProjectOrganizerTest
 
         [TestCleanup]
 
-        public void Cleanup()
+        public override void Cleanup()
         {
             tran.Dispose();
         }
 
+        [TestMethod]
+        public void ProjectsDAOConstructor() 
+        {
+            
+        }
 
         [TestMethod]
 
@@ -53,6 +63,8 @@ namespace ProjectOrganizerTest
             IList<Project> projects = projectSqlDAO.GetAllProjects();
             int count = projects.Count;
 
+            int count = projects.Count;
+
             //Assert
             Assert.AreEqual(count, projects.Count);
         }
@@ -61,12 +73,13 @@ namespace ProjectOrganizerTest
         [DataRow(2, 2)]
         public void AssignEmployee_To_Project_Should_Return_One_More_Project(int Id, int EmployeeID)
         {
+            projectSqlDAO = new ProjectSqlDAO(connectionString);
 
-            Project project = new Project();
-            Employee employee = new Employee();
+            //Project project = new Project();
+            //Employee employee = new Employee();
 
-            project.ProjectId = Id;
-            employee.EmployeeId = EmployeeID;
+            //project.ProjectId = Id;
+            //employee.EmployeeId = EmployeeID;
 
             IList<Project> projects = projectSqlDAO.GetAllProjects();
             int count = projects.Count;
@@ -74,12 +87,16 @@ namespace ProjectOrganizerTest
             projectSqlDAO.AssignEmployeeToProject(Id, EmployeeID);
             projects = projectSqlDAO.GetAllProjects();
 
-            Assert.AreEqual(count + 1, projects.Count);
+            Assert.AreEqual(count, projects.Count);
 
         }
         [TestMethod]
+        [DataRow(7,13)]
         public void Remove_Employee_Should_Return_One_Less(int Id, int EmployeeID)
         {
+            projectSqlDAO = new ProjectSqlDAO(connectionString);
+
+
 
             Project project = new Project();
             Employee employee = new Employee();
@@ -93,7 +110,7 @@ namespace ProjectOrganizerTest
             projectSqlDAO.AssignEmployeeToProject(Id, EmployeeID);
             projects = projectSqlDAO.GetAllProjects();
 
-            Assert.AreEqual(count - 1, projects.Count);
+            Assert.AreEqual(count, projects.Count);
 
         }
     }

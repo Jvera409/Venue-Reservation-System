@@ -7,18 +7,22 @@ using System.Transactions;
 namespace ProjectOrganizerTest
 {
     [TestClass]
-    public class DepartmentDAOTest
+    public class DepartmentDAOTest : TestParentDAO
     {
+<<<<<<< HEAD
         DepartmentSqlDAO departmentSqlDAO;
 
         public string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=EmployeeDB;Integrated Security=True";
 
 
+=======
+
+>>>>>>> 4b7b781ccc815358b1db71a956adc442844a373f
         private TransactionScope tran;
 
         [TestInitialize]
 
-        public void Setup()
+        public override void Setup()
         {
             tran = new TransactionScope();
 
@@ -27,11 +31,11 @@ namespace ProjectOrganizerTest
 
         [TestCleanup]
 
-        public void Cleanup()
+        public override void Cleanup()
         {
             tran.Dispose();
         }
-
+        DepartmentSqlDAO departmentSqlDAO;
         [TestMethod]
 
         public void DepartmentSqlDAOConstructor()
@@ -63,7 +67,11 @@ namespace ProjectOrganizerTest
         public void GetDepartments_Should_ReturnAllDepartments()
         {
             //Arrange 
+<<<<<<< HEAD
             departmentSqlDAO = new DepartmentSqlDAO(connectionString);
+=======
+          departmentSqlDAO = new DepartmentSqlDAO(connectionString);
+>>>>>>> 4b7b781ccc815358b1db71a956adc442844a373f
 
             //Act
             IList<Department> departments = departmentSqlDAO.GetDepartments();
