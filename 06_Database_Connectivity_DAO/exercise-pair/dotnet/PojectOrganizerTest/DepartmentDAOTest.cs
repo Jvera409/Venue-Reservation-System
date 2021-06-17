@@ -9,10 +9,11 @@ namespace ProjectOrganizerTest
     [TestClass]
     public class DepartmentDAOTest
     {
+        DepartmentSqlDAO departmentSqlDAO;
+
         public string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=EmployeeDB;Integrated Security=True";
 
-        DepartmentSqlDAO departmentSqlDAO;
-        
+
         private TransactionScope tran;
 
         [TestInitialize]
@@ -21,7 +22,7 @@ namespace ProjectOrganizerTest
         {
             tran = new TransactionScope();
 
-           // departmentSqlDAO = new DepartmentSqlDAO(connectionString);
+            departmentSqlDAO = new DepartmentSqlDAO(connectionString);
         }
 
         [TestCleanup]
@@ -62,7 +63,7 @@ namespace ProjectOrganizerTest
         public void GetDepartments_Should_ReturnAllDepartments()
         {
             //Arrange 
-          //  departmentSqlDAO = new DepartmentSqlDAO(connectionString);
+            departmentSqlDAO = new DepartmentSqlDAO(connectionString);
 
             //Act
             IList<Department> departments = departmentSqlDAO.GetDepartments();

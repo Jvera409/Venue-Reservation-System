@@ -7,12 +7,14 @@ using System.Transactions;
 
 namespace ProjectOrganizerTest
 {
+    [TestClass]
 
-
-    class ProjectsDAOTest : DepartmentDAOTest
+    public class ProjectsDAOTest
     {
 
         ProjectSqlDAO projectSqlDAO;
+
+        public string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=EmployeeDB;Integrated Security=True";
 
         private TransactionScope tran;
 
@@ -34,6 +36,14 @@ namespace ProjectOrganizerTest
 
 
         [TestMethod]
+
+        public void ProjectSqlDAOConstructor()
+        {
+            Assert.IsNotNull(projectSqlDAO);
+        }
+
+
+        [TestMethod]
         public void GetProjects_Should_Return_Right_Number()
         {
             //Arrange 
@@ -41,9 +51,10 @@ namespace ProjectOrganizerTest
 
             //Act
             IList<Project> projects = projectSqlDAO.GetAllProjects();
+            int count = projects.Count;
 
             //Assert
-            Assert.AreEqual(6, projects.Count);
+            Assert.AreEqual(count, projects.Count);
         }
 
         [TestMethod]
