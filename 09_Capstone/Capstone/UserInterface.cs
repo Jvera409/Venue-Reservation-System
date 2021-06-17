@@ -51,7 +51,11 @@ namespace Capstone
         private void GetAllVenues()
         {
             Console.WriteLine("Here are all available Venues:");
-            Console.WriteLine(venueDAO.GetAllVenues());
+
+            foreach (Venues venues in venueDAO.GetAllVenues())
+            {
+                Console.WriteLine(venues);
+            }
       
         }
     }

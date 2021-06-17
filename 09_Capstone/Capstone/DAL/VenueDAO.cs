@@ -12,7 +12,7 @@ namespace Capstone.DAL
 
         private string connectionString;
 
-        private string sqlGetAllVenues = "SELECT * FROM Venues;";
+        private string sqlGetAllVenues = "SELECT * FROM venue;";
 
         public VenueDAO(string connectionString)
         {
