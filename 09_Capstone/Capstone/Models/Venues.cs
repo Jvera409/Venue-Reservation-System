@@ -13,6 +13,8 @@ namespace Capstone.Models
 
         public string Description { get; set; }
 
+        public List<Category> Categories { get; set; } = new List<Category>();
+
 
         public Venues(int id, string name, int cityId, string description)
         {
