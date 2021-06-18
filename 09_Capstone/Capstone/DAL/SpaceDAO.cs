@@ -17,7 +17,7 @@ namespace Capstone.DAL
             this.connectionString = connectionString;
         }
 
-        public List<Space> GetAllSpaces()
+        public List<Space> SelectSpace(int Id)
         {
             List<Space> spaces = new List<Space>();
             try
@@ -28,18 +28,35 @@ namespace Capstone.DAL
 
                     SqlCommand cmd = new SqlCommand(sqlGetAllSpaces, conn);
 
+                    cmd.Parameters.AddWithValue("@venue_id", Id);
+
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while(reader.Read() == true)
                     {
                         Space space = new Space();
+                        if (reader.IsDBNull(reader.GetOrdinal("open_from")))
+                        {
+                            space.OpenFrom = 0;
+                        }
+                        else
+                        {
+                            space.OpenFrom = reader.GetInt32(reader.GetOrdinal("open_from"));
+                        }
+
+                        if (reader.IsDBNull(reader.GetOrdinal("open_to")))
+                        {
+                            space.OpenTo = 0;
+                        }
+                        else
+                        {
+                            space.OpenTo = reader.GetInt32(reader.GetOrdinal("open_to"));
+                        }
 
                         space.Id = Convert.ToInt32(reader["id"]);
                         space.VenueId = Convert.ToInt32(reader["venue_id"]);
                         space.Name = Convert.ToString(reader["name"]);
                         space.IsAccessible = Convert.ToBoolean(reader["is_accessible"]);
-                        space.OpenFrom = Convert.ToInt32(reader["open_from"]);
-                        space.OpenTo = Convert.ToInt32(reader["open_to"]);
                         space.DailyRate = Convert.ToDouble(reader["daily_rate"]);
                         space.MaxOccupancy = Convert.ToInt32(reader["max_occupancy"]);
 

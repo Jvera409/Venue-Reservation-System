@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Capstone.Models
 {
-    class Space
+    public class Space
     {
         // id, venue id, name, is accessible, open from, open to, daily rate, max occupancy
         public int Id { get; set; }

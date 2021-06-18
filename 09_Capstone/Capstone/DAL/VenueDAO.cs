@@ -15,10 +15,13 @@ namespace Capstone.DAL
         private string sqlGetAllVenues = "SELECT * FROM venue;";
 
         //Add a join to city here
-        private string sqlSelectVenue = "Select * FROM venue WHERE id = @id";
+        private string sqlSelectVenue = "SELECT * FROM venue WHERE id = @id";
 
-        private string sqlCategory = "SELECT catergory.name FROM category_venue JOIN category " +
-            "ON category_venue.category_id = category.id WHERE category_id = @venue_id";
+        private string sqlCategory = "SELECT * FROM category_venue JOIN category " +
+            " ON category_venue.category_id = category.id WHERE category_venue.venue_id = @venue_id";
+
+        private string sqlCityState = "SELECT * FROM city JOIN venue " +
+            " ON venue.city_id = city.id WHERE venue.id = @id";
 
         public VenueDAO(string connectionString)
         {
@@ -79,58 +82,48 @@ namespace Capstone.DAL
                     if (reader.Read() == true)
                     {
 
-<<<<<<< HEAD
-                        venues1.Id = Convert.ToInt32(reader["id"]);
-                        //venues1.Name = Convert.ToString(reader["name"]);
-                        //venues1.CityId = Convert.ToInt32(reader["city_id"]);
-                        venues1.Description = Convert.ToString(reader["description"]);
-=======
                         venue.Id = Convert.ToInt32(reader["id"]);
                         venue.Name = Convert.ToString(reader["name"]);
                         venue.CityId = Convert.ToInt32(reader["city_id"]);
                         venue.Description = Convert.ToString(reader["description"]);
->>>>>>> 958f986eda11ec91d9373d039b49fa95de7d524e
 
                     }
+                    reader.Close();
 
-<<<<<<< HEAD
-                    foreach (Venues venues2 in venues)
-                    {
-                        List<Category> categories = new List<Category>();
-                        SqlCommand cmd2 = new SqlCommand(sqlCategory, conn);
-
-                        cmd2.Parameters.AddWithValue("@venue_id", venues2.Id);
-
-                        SqlDataReader sqlDataReader = cmd2.ExecuteReader();
-
-                        if (reader.Read() == true)
-                        {
-                            Category category = new Category();
-                            //category.ID = Convert.ToInt32(reader["id"]);
-                            category.Name = Convert.ToString(reader["name"]);
-=======
 
                     List<Category> categories = new List<Category>();
                     cmd = new SqlCommand(sqlCategory, conn);
 
-                    cmd.Parameters.AddWithValue("@venueId", venue.Id);
+                    cmd.Parameters.AddWithValue("@venue_id", venue.Id);
 
-                    SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                    reader = cmd.ExecuteReader();
 
-                    if (sqlDataReader.Read() == true)
+                    if (reader.Read() == true)
                     {
                         Category category = new Category();
-                        category.ID = Convert.ToInt32(sqlDataReader["id"]);
-                        category.Name = Convert.ToString(sqlDataReader["name"]);
->>>>>>> 958f986eda11ec91d9373d039b49fa95de7d524e
+                        category.ID = Convert.ToInt32(reader["id"]);
+                        category.Name = Convert.ToString(reader["name"]);
 
                         categories.Add(category);
                     }
                     venue.Categories = categories;
+                    reader.Close();
 
+                    cmd = new SqlCommand(sqlCityState, conn);
+
+                    cmd.Parameters.AddWithValue("@id", Id);
+
+                    reader = cmd.ExecuteReader();
+
+                    if (reader.Read() == true)
+                    {
+
+                        venue.CityName = Convert.ToString(reader["name"]);
+                        venue.StateAbbreviation = Convert.ToString(reader["state_abbreviation"]);
+
+                    }
 
                 }
-
             }
             catch (Exception ex)
             {

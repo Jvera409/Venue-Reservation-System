@@ -13,11 +13,13 @@ namespace Capstone
 
         private string connectionString;
         private VenueDAO venueDAO;
+        private SpaceDAO spaceDAO;
 
         public UserInterface(string connectionString)
         {
             this.connectionString = connectionString;
             venueDAO = new VenueDAO(connectionString);
+            spaceDAO = new SpaceDAO(connectionString);
         }
 
         public void Run()
@@ -33,7 +35,6 @@ namespace Capstone
                     case "1": //callSQLMethod
                         GetAllVenues();
                         SelectVenue();
-                        //GetAllSpaces();
                         break;
                     case "Q":
                         done = true;
@@ -70,21 +71,67 @@ namespace Capstone
             Console.WriteLine("Which venue would you like to view?");
             int venueSelect = int.Parse(Console.ReadLine());
 
-            
+            Venues venues = venueDAO.SelectVenue(venueSelect);
+
+            Console.WriteLine();
+            Console.WriteLine(venues.Name);
+
+            Console.WriteLine("Location: " + venues.CityName + ", " + venues.StateAbbreviation);
+
+            foreach (Category category in venues.Categories)
             {
+                Console.WriteLine("Categories: " + category.Name);
+            }
+            Console.WriteLine();
+            Console.WriteLine(venues.Description);
+
+            bool done = false;
+            while (!done)
+            {
+
+                Console.WriteLine("What would you like to do next ?");
                 Console.WriteLine();
-                Console.WriteLine(venues.Name);
-                Console.WriteLine(venues.CityId);
-                Console.WriteLine(venues.Categories);
+                Console.WriteLine("1) View Spaces");
+                Console.WriteLine("2) Reserve a Space");
+                Console.WriteLine("R) Return to Previous Screen");
                 Console.WriteLine();
 
-            SelectSpace(venueSelect);
+
+                string input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        SelectSpace(venueSelect);
+                        break;
+                    case "2":
+                        //ReserveASpace();
+                        break;
+                    case "R":
+                    case "r":
+                        GetAllVenues();
+                        SelectVenue();
+                        break;
+                    default:
+                        Console.WriteLine("Please make valid selection.");
+                        break;
+                }
+            }
+
         }
 
-        private void SelectSpace(int venue)
+        private void SelectSpace(int id)
         {
+            Console.WriteLine();
+            Console.WriteLine("Here are all available spaces for venue selected:");
+
+            List<Space> spaces = spaceDAO.SelectSpace(id);
+
+            foreach (Space space in spaces)
+            {
+                Console.WriteLine(space.Id + " " + space.Name + " " + space.OpenFrom + " " + space.OpenTo + " " + space.IsAccessible + " " + space.DailyRate + " " + space.MaxOccupancy);
+            }
 
         }
-
     }
+
 }
