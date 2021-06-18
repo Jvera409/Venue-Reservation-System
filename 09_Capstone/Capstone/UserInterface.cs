@@ -90,7 +90,7 @@ namespace Capstone
             bool done = false;
             while (!done)
             {
-
+                Console.WriteLine();
                 Console.WriteLine("What would you like to do next ?");
                 Console.WriteLine();
                 Console.WriteLine("1) View Spaces");
@@ -106,7 +106,7 @@ namespace Capstone
                         SelectSpace(venueSelect);
                         break;
                     case "2":
-                        //ReserveASpace();
+                        ReserveASpace();
                         break;
                     case "R":
                     case "r":
@@ -141,22 +141,52 @@ namespace Capstone
 
         private void SearchSpaces(int id)
         {
-
+            Console.WriteLine();
             Console.WriteLine("When do you need the space?");
             DateTime date = DateTime.Parse(Console.ReadLine());
- 
+
+            Console.WriteLine();
             Console.WriteLine("How many days will you need the space?");
             int days = int.Parse(Console.ReadLine());
 
+            Console.WriteLine();
             Console.WriteLine("How many people will be in attendance?");
             int amountOfPeople = int.Parse(Console.ReadLine());
 
-            List<Space> spaces = reservationDAO.SearchSpaces(date, days, amountOfPeople);
+            List<Space> spaces = reservationDAO.SearchSpaces(date, days, amountOfPeople, id);
 
-                foreach (Space space in spaces)
+            Console.WriteLine();
+            Console.WriteLine("Below are the available spaces: ");
+            Console.WriteLine();
+
+            foreach (Space space in spaces)
             {
-                Console.WriteLine(space.Id + " " + space.Name + " " + space.DailyRate + " " + " " + space.MaxOccupancy + " " + space.IsAccessible);
+                Console.WriteLine(space.Id + " " + space.Name + " " + space.DailyRate + " " + " " + space.MaxOccupancy + " " + space.IsAccessible + " " + space.DailyRate * days);
             }
+
+            ReserveASpace(date, days, amountOfPeople, id);
+        }
+        
+
+        private void ReserveASpace(DateTime date, int days, int amountOfPeople, int id)
+        {
+            Console.WriteLine("Which space would you like to reserve(enter 0 to cancel)?");
+            int spaceId = int.Parse(Console.ReadLine());
+
+
+            if (spaceId == 0)
+            {
+                GetAllVenues();
+            }
+
+            Console.WriteLine("Who is this reservation for?");
+            string customerName = Console.ReadLine();
+
+            DateTime endDate = date.AddDays(days);
+
+            Reservation reservation = new Reservation(spaceId, amountOfPeople, date, endDate, customerName);
+
+            reservationDAO.ReserveASpace(reservation);
         }
     }
 

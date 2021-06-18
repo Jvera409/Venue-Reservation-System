@@ -5,9 +5,7 @@ using System.Text;
 namespace Capstone.Models
 {
     class Reservation
-    {
-        public int ReservationId { get; set; }
-
+    { 
         public int SpaceId { get; set; }
 
         public int NumberOfAttendees { get; set; }
@@ -18,9 +16,9 @@ namespace Capstone.Models
 
         public string ReservedFor { get; set; }
 
-        public Reservation(int reservationId, int spaceId, int numberOfAtendees, DateTime startDate, DateTime endDate, string reservedFor)
+        public Reservation(int spaceId, int numberOfAtendees, DateTime startDate, DateTime endDate, string reservedFor)
         {
-            ReservationId = reservationId;
+           
             SpaceId = spaceId;
             NumberOfAttendees = numberOfAtendees;
             StartDate = startDate;
@@ -35,7 +33,7 @@ namespace Capstone.Models
 
         public override string ToString()
         {
-            return ReservationId + " " + SpaceId + " " + NumberOfAttendees + " " + StartDate + " " + EndDate + " " + ReservedFor;
+            return SpaceId + " " + NumberOfAttendees + " " + StartDate + " " + EndDate + " " + ReservedFor;
         }
     }
 }

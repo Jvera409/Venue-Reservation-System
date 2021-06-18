@@ -23,7 +23,7 @@ namespace Capstone.DAL
         }
 
 
-        public List<Space> SearchSpaces(DateTime date, int days, int amountOfPeople)
+        public List<Space> SearchSpaces(DateTime date, int days, int amountOfPeople, int id)
         {
             List<Space> spaces = new List<Space>();
             try
@@ -38,6 +38,7 @@ namespace Capstone.DAL
                     cmd.Parameters.AddWithValue("@start_date", date);
                     cmd.Parameters.AddWithValue("@end_date", date.AddDays(days));
                     cmd.Parameters.AddWithValue("@max_occupancy", amountOfPeople);
+                    cmd.Parameters.AddWithValue("@venue_id", id);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
