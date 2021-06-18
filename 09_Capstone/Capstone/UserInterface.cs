@@ -126,6 +126,9 @@ namespace Capstone
 
             List<Space> spaces = spaceDAO.SelectSpace(id);
 
+            Console.WriteLine("ID   Name    Open From   Open To     Is Accessible   Daily Rate  Max Occupancy");
+            Console.WriteLine("------------------------------------------------------------------------------");
+
             foreach (Space space in spaces)
             {
                 Console.WriteLine(space.Id + " " + space.Name + " " + space.OpenFrom + " " + space.OpenTo + " " + space.IsAccessible + " " + space.DailyRate + " " + space.MaxOccupancy);
