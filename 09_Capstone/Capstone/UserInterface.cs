@@ -14,12 +14,14 @@ namespace Capstone
         private string connectionString;
         private VenueDAO venueDAO;
         private SpaceDAO spaceDAO;
+        private ReservationDAO reservationDAO;
 
         public UserInterface(string connectionString)
         {
             this.connectionString = connectionString;
             venueDAO = new VenueDAO(connectionString);
             spaceDAO = new SpaceDAO(connectionString);
+            reservationDAO = new ReservationDAO(connectionString);
         }
 
         public void Run()
@@ -134,6 +136,27 @@ namespace Capstone
                 Console.WriteLine(space.Id + " " + space.Name + " " + space.OpenFrom + " " + space.OpenTo + " " + space.IsAccessible + " " + space.DailyRate + " " + space.MaxOccupancy);
             }
 
+            SearchSpaces(id);
+        }
+
+        private void SearchSpaces(int id)
+        {
+
+            Console.WriteLine("When do you need the space?");
+            DateTime date = DateTime.Parse(Console.ReadLine());
+ 
+            Console.WriteLine("How many days will you need the space?");
+            int days = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("How many people will be in attendance?");
+            int amountOfPeople = int.Parse(Console.ReadLine());
+
+            List<Space> spaces = reservationDAO.SearchSpaces(date, days, amountOfPeople);
+
+                foreach (Space space in spaces)
+            {
+                Console.WriteLine(space.Id + " " + space.Name + " " + space.DailyRate + " " + " " + space.MaxOccupancy + " " + space.IsAccessible);
+            }
         }
     }
 
