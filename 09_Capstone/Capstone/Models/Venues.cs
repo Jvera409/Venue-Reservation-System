@@ -7,7 +7,7 @@ namespace Capstone.Models
     public class Venues
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string VenueName { get; set; }
 
         public int CityId { get; set; }
 
@@ -20,10 +20,10 @@ namespace Capstone.Models
         public List<Category> Categories { get; set; } = new List<Category>();
 
 
-        public Venues(int id, string name, int cityId, string description, string cityName, string stateAbreviation)
+        public Venues(int id, string venueName, int cityId, string description, string cityName, string stateAbreviation)
         {
             Id = id;
-            Name = name;
+            VenueName = venueName;
             CityId = cityId;
             Description = description;
             CityName = cityName;
@@ -36,7 +36,7 @@ namespace Capstone.Models
 
         public override string ToString()
         {
-            return Id + " " + Name + " " + CityId + " " + Description + " " + CityName + " " + StateAbbreviation; 
+            return Id + " " + VenueName + " " + CityId + " " + Description + " " + CityName + " " + StateAbbreviation; 
         }
     }
 }

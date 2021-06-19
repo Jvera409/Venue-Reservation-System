@@ -62,7 +62,7 @@ namespace Capstone
 
             foreach (Venues venues in venueDAO.GetAllVenues())
             {
-                Console.WriteLine(venues.Id + " " + venues.Name);
+                Console.WriteLine(venues.Id + " " + venues.VenueName);
             }
 
         }
@@ -76,7 +76,7 @@ namespace Capstone
             Venues venues = venueDAO.SelectVenue(venueSelect);
 
             Console.WriteLine();
-            Console.WriteLine(venues.Name);
+            Console.WriteLine(venues.VenueName);
 
             Console.WriteLine("Location: " + venues.CityName + ", " + venues.StateAbbreviation);
 
@@ -106,7 +106,7 @@ namespace Capstone
                         SelectSpace(venueSelect);
                         break;
                     case "2":
-                        ReserveASpace();
+                        ReserveASpace(venueSelect);
                         break;
                     case "R":
                     case "r":
@@ -133,13 +133,44 @@ namespace Capstone
 
             foreach (Space space in spaces)
             {
-                Console.WriteLine(space.Id + " " + space.Name + " " + space.OpenFrom + " " + space.OpenTo + " " + space.IsAccessible + " " + space.DailyRate + " " + space.MaxOccupancy);
+                Console.WriteLine(space.Id + " " + space.SpaceName + " " + space.OpenFrom + " " + space.OpenTo + " " + space.IsAccessible + " " + space.DailyRate + " " + space.MaxOccupancy);
             }
 
-            SearchSpaces(id);
+            ReserveASpace(id);
         }
 
-        private void SearchSpaces(int id)
+        //private void SearchSpaces(int id)
+        //{
+        //    Console.WriteLine();
+        //    Console.WriteLine("When do you need the space?");
+        //    DateTime date = DateTime.Parse(Console.ReadLine());
+
+        //    Console.WriteLine();
+        //    Console.WriteLine("How many days will you need the space?");
+        //    int days = int.Parse(Console.ReadLine());
+
+        //    Console.WriteLine();
+        //    Console.WriteLine("How many people will be in attendance?");
+        //    int amountOfPeople = int.Parse(Console.ReadLine());
+
+        //    List<Space> spaces = reservationDAO.SearchSpaces(date, days, amountOfPeople, id);
+
+        //    Console.WriteLine();
+        //    Console.WriteLine("Below are the available spaces: ");
+        //    Console.WriteLine();
+
+        //    foreach (Space space in spaces)
+        //    {
+        //        Console.WriteLine(space.Id + " " + space.Name + " " + space.DailyRate + " " + " " + space.MaxOccupancy + " " + space.IsAccessible + " " + space.DailyRate * days);
+        //    }
+
+        //    ReserveASpace(date, days, amountOfPeople, id);
+        //}
+        //DateTime date, int days, int amountOfPeople, int id
+
+
+
+        private void ReserveASpace(int id)
         {
             Console.WriteLine();
             Console.WriteLine("When do you need the space?");
@@ -161,15 +192,9 @@ namespace Capstone
 
             foreach (Space space in spaces)
             {
-                Console.WriteLine(space.Id + " " + space.Name + " " + space.DailyRate + " " + " " + space.MaxOccupancy + " " + space.IsAccessible + " " + space.DailyRate * days);
+                Console.WriteLine(space.Id + " " + space.SpaceName + " " + space.DailyRate + " " + " " + space.MaxOccupancy + " " + space.IsAccessible + " " + space.DailyRate * days);
             }
 
-            ReserveASpace(date, days, amountOfPeople, id);
-        }
-        
-
-        private void ReserveASpace(DateTime date, int days, int amountOfPeople, int id)
-        {
             Console.WriteLine("Which space would you like to reserve(enter 0 to cancel)?");
             int spaceId = int.Parse(Console.ReadLine());
 
@@ -186,7 +211,23 @@ namespace Capstone
 
             Reservation reservation = new Reservation(spaceId, amountOfPeople, date, endDate, customerName);
 
-            reservationDAO.ReserveASpace(reservation);
+            int reservationId =  reservationDAO.ReserveASpace(reservation);
+
+            
+
+            Console.WriteLine();
+            Console.WriteLine("Thanks for submitting your reservation! The details for your event are listed below: ");
+            Console.WriteLine("------------------------------------------------------------------------------------");
+            //return the results of a sql query for the new reservation we just made and return the values
+            Console.WriteLine("Confirmation Number: " + reservationId);
+            Console.WriteLine("Venue: " + venueDAO.SelectVenue(id).VenueName);
+            Console.WriteLine("Space: " + spaceDAO.SelectIndividualSpace(id).SpaceName);
+            Console.WriteLine("Reserved for: " + customerName);
+            Console.WriteLine("Attendees: " + amountOfPeople);
+            Console.WriteLine("Arrival Date: " + date);
+            Console.WriteLine("Departure: " + endDate);
+            Console.WriteLine("Total Cost: " + spaceDAO.SelectIndividualSpace(id).DailyRate*days);
+
         }
     }
 

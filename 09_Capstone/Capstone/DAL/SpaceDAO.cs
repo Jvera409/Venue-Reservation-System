@@ -17,6 +17,37 @@ namespace Capstone.DAL
             this.connectionString = connectionString;
         }
 
+
+        public Space SelectIndividualSpace(int id)
+        {
+            Space space = new Space();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(sqlGetAllSpaces, conn);
+
+                    cmd.Parameters.AddWithValue("@venue_id", id);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read() == true)
+                    {
+                        space.DailyRate = Convert.ToInt32(reader["daily_rate"]);
+                        space.SpaceName = Convert.ToString(reader["name"]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                space = new Space();
+            }
+            return space;
+        }
+
         public List<Space> SelectSpace(int Id)
         {
             List<Space> spaces = new List<Space>();
@@ -32,7 +63,7 @@ namespace Capstone.DAL
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while(reader.Read() == true)
+                    while (reader.Read() == true)
                     {
                         Space space = new Space();
                         if (reader.IsDBNull(reader.GetOrdinal("open_from")))
@@ -55,7 +86,7 @@ namespace Capstone.DAL
 
                         space.Id = Convert.ToInt32(reader["id"]);
                         space.VenueId = Convert.ToInt32(reader["venue_id"]);
-                        space.Name = Convert.ToString(reader["name"]);
+                        space.SpaceName = Convert.ToString(reader["name"]);
                         space.IsAccessible = Convert.ToBoolean(reader["is_accessible"]);
                         space.DailyRate = Convert.ToDouble(reader["daily_rate"]);
                         space.MaxOccupancy = Convert.ToInt32(reader["max_occupancy"]);

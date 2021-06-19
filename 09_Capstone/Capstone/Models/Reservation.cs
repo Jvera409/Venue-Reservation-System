@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Capstone.Models
 {
-    class Reservation
+    public class Reservation
     { 
+
+        public int ReservationId { get; set; }
         public int SpaceId { get; set; }
 
         public int NumberOfAttendees { get; set; }

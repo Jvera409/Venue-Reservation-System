@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Capstone.Models
 {
-    public class Space
+    public class Space 
     {
         // id, venue id, name, is accessible, open from, open to, daily rate, max occupancy
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string SpaceName { get; set; }
         public int VenueId { get; set; }
         public bool IsAccessible { get; set; }
         public int OpenFrom { get; set; }
@@ -16,10 +16,10 @@ namespace Capstone.Models
         public double DailyRate { get; set; }
         public int MaxOccupancy { get; set; }
 
-        public Space(int id, string name, int venueId, bool isAccessible, int openFrom, int openTo, double dailyRate, int maxOccupancy)
+        public Space(int id, string spaceName, int venueId, bool isAccessible, int openFrom, int openTo, double dailyRate, int maxOccupancy)
         {
             Id = id;
-            Name = name;
+            SpaceName = spaceName;
             VenueId = venueId;
             IsAccessible = isAccessible;
             OpenFrom = openFrom;
@@ -33,7 +33,7 @@ namespace Capstone.Models
         }
         public override string ToString()
         {
-            return Id + " " + Name + " " + OpenFrom + " " + OpenTo + " " + DailyRate + " " + MaxOccupancy;
+            return Id + " " + SpaceName + " " + OpenFrom + " " + OpenTo + " " + DailyRate + " " + MaxOccupancy;
 
         }
     }

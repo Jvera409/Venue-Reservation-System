@@ -47,13 +47,12 @@ namespace Capstone.DAL
                         Venues venues1 = new Venues();
 
                         venues1.Id = Convert.ToInt32(reader["id"]);
-                        venues1.Name = Convert.ToString(reader["name"]);
+                        venues1.VenueName = Convert.ToString(reader["name"]);
                         venues1.CityId = Convert.ToInt32(reader["city_id"]);
                         venues1.Description = Convert.ToString(reader["description"]);
 
                         venues.Add(venues1);
                     }
-
                 }
             }
             catch (Exception ex)
@@ -83,7 +82,7 @@ namespace Capstone.DAL
                     {
 
                         venue.Id = Convert.ToInt32(reader["id"]);
-                        venue.Name = Convert.ToString(reader["name"]);
+                        venue.VenueName = Convert.ToString(reader["name"]);
                         venue.CityId = Convert.ToInt32(reader["city_id"]);
                         venue.Description = Convert.ToString(reader["description"]);
 
