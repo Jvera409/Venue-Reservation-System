@@ -128,12 +128,12 @@ namespace Capstone
 
             List<Space> spaces = spaceDAO.SelectSpace(id);
 
-            Console.WriteLine("ID   Name    Open From   Open To     Is Accessible   Daily Rate  Max Occupancy");
-            Console.WriteLine("------------------------------------------------------------------------------");
+            Console.WriteLine("ID  Name            Open From  Open To  Is Accessible     Daily Rate     Max Occupancy");
+            Console.WriteLine("-----------------------------------------------------------------------------------------");
 
             foreach (Space space in spaces)
             {
-                Console.WriteLine(space.Id + " " + space.SpaceName + " " + space.OpenFrom + " " + space.OpenTo + " " + space.IsAccessible + " " + space.DailyRate + " " + space.MaxOccupancy);
+                Console.WriteLine(space.Id.ToString().PadRight(2) + " " + space.SpaceName.PadRight(20) + " " + space.OpenFrom.ToString().PadRight(9) + " " + space.OpenTo.ToString().PadRight(10) + " " + space.IsAccessible.ToString().PadRight(14) + " " + space.DailyRate.ToString().PadRight(15) + " " + space.MaxOccupancy);
             }
 
             ReserveASpace(id);
@@ -190,11 +190,14 @@ namespace Capstone
             Console.WriteLine("Below are the available spaces: ");
             Console.WriteLine();
 
+            Console.WriteLine("Space #  Name            Daily Rate  Max Occuapncy  Accessible?  Total Cost");
+            Console.WriteLine("--------------------------------------------------------------------------------");
             foreach (Space space in spaces)
             {
-                Console.WriteLine(space.Id + " " + space.SpaceName + " " + space.DailyRate + " " + " " + space.MaxOccupancy + " " + space.IsAccessible + " " + space.DailyRate * days);
+                Console.WriteLine(space.Id.ToString().PadRight(7) + " " + space.SpaceName.PadRight(20) + " " + space.DailyRate.ToString().PadRight(9) + " " + " " + space.MaxOccupancy.ToString().PadRight(13) + " " + space.IsAccessible.ToString().PadRight(14) + " " + space.DailyRate * days);
             }
 
+            Console.WriteLine();
             Console.WriteLine("Which space would you like to reserve(enter 0 to cancel)?");
             int spaceId = int.Parse(Console.ReadLine());
 
@@ -211,9 +214,9 @@ namespace Capstone
 
             Reservation reservation = new Reservation(spaceId, amountOfPeople, date, endDate, customerName);
 
-            int reservationId =  reservationDAO.ReserveASpace(reservation);
+            int reservationId = reservationDAO.ReserveASpace(reservation);
 
-            
+
 
             Console.WriteLine();
             Console.WriteLine("Thanks for submitting your reservation! The details for your event are listed below: ");
@@ -226,7 +229,7 @@ namespace Capstone
             Console.WriteLine("Attendees: " + amountOfPeople);
             Console.WriteLine("Arrival Date: " + date);
             Console.WriteLine("Departure: " + endDate);
-            Console.WriteLine("Total Cost: " + spaceDAO.SelectIndividualSpace(id).DailyRate*days);
+            Console.WriteLine("Total Cost: " + spaceDAO.SelectIndividualSpace(id).DailyRate * days);
 
         }
     }

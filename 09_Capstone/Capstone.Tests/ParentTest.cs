@@ -13,6 +13,8 @@ namespace Capstone.Tests
 
         protected string connectionString;
         protected VenueDAO venueDAO;
+        protected ReservationDAO reservationDAO;
+        protected SpaceDAO spaceDAO;
 
         public ParentTest()
         {
@@ -31,6 +33,8 @@ namespace Capstone.Tests
         {
             trans = new TransactionScope();
             venueDAO = new VenueDAO(connectionString);
+            reservationDAO = new ReservationDAO(connectionString);
+            spaceDAO = new SpaceDAO(connectionString);
         }
 
         [TestCleanup]

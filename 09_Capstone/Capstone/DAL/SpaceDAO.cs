@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Capstone.DAL
 {
-    class SpaceDAO
+    public class SpaceDAO
     {
         private string connectionString;
 
